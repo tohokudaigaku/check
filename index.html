@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>東北大学付けチェック</title>
+
+<style>
+body{
+    margin:0;
+    padding:20px;
+    background:#111;
+    color:white;
+    font-family:sans-serif;
+}
+
+.question{
+    text-align:center;
+    font-size:2rem;
+    font-weight:bold;
+    margin-bottom:20px;
+}
+
+.choice{
+    border-radius:15px;
+    padding:20px;
+    margin-bottom:20px;
+    text-align:center;
+}
+
+/* Aは赤 */
+.a{
+    background:#d32f2f;
+}
+
+/* Bは青 */
+.b{
+    background:#1976d2;
+}
+
+.label{
+    font-size:2rem;
+    font-weight:bold;
+    margin-bottom:10px;
+}
+
+img{
+    width:100%;
+    max-height:400px;
+    object-fit:contain;
+    border-radius:10px;
+}
+
+.text{
+    font-size:1.5rem;
+    padding:20px 0;
+}
+
+.buttons{
+    display:flex;
+    gap:10px;
+}
+
+button{
+    flex:1;
+    padding:15px;
+    border:none;
+    border-radius:10px;
+    font-size:1rem;
+    cursor:pointer;
+}
+
+.prev{
+    background:#666;
+    color:white;
+}
+
+.list{
+    background:#ff9800;
+    color:white;
+}
+
+.next{
+    background:#28a745;
+    color:white;
+}
+
+#listPage{
+    display:none;
+}
+
+.item{
+    background:#333;
+    padding:15px;
+    border-radius:10px;
+    margin-bottom:10px;
+    text-align:center;
+    cursor:pointer;
+}
+
+.item:hover{
+    background:#555;
+}
+</style>
+</head>
+
+<body>
+
+<div id="questionPage">
+
+<div id="questionNumber" class="question"></div>
+
+<div class="choice a">
+    <div class="label">A</div>
+    <div id="choiceA"></div>
+</div>
+
+<div class="choice b">
+    <div class="label">B</div>
+    <div id="choiceB"></div>
+</div>
+
+<div class="buttons">
+    <button class="prev" onclick="prevQuestion()">前へ</button>
+    <button class="list" onclick="showList()">問題一覧</button>
+    <button class="next" onclick="nextQuestion()">次へ</button>
+</div>
+
+</div>
+
+<div id="listPage">
+
+<h2>問題一覧</h2>
+
+<div class="item" onclick="goQuestion(0)">第1問</div>
+<div class="item" onclick="goQuestion(1)">第2問</div>
+<div class="item" onclick="goQuestion(2)">第4問</div>
+<div class="item" onclick="goQuestion(3)">第6問</div>
+<div class="item" onclick="goQuestion(4)">第7問</div>
+
+<button class="list" onclick="backQuestion()">
+戻る
+</button>
+
+</div>
+
+<script>
+
+const questions = [
+
+{
+    num:"第1問",
+    type:"photo",
+    imgA:"q1a.jpg",
+    imgB:"q1b.jpg"
+},
+
+{
+    num:"第2問",
+    type:"text",
+    a:"東西線",
+    b:"南北線"
+},
+
+{
+    num:"第4問",
+    type:"text",
+    a:"アルベルト・アインシュタイン",
+    b:"トーマス・エジソン"
+},
+
+{
+    num:"第6問",
+    type:"photo",
+    imgA:"q6a.jpg",
+    imgB:"q6b.jpg"
+},
+
+{
+    num:"第7問",
+    type:"text",
+    a:"ラグビー選手",
+    b:"アメフト選手"
+}
+
+];
+
+let current = 0;
+
+function showQuestion(){
+
+    const q = questions[current];
+
+    document.getElementById("questionNumber").textContent =
+        q.num;
+
+    if(q.type === "photo"){
+
+        document.getElementById("choiceA").innerHTML =
+            '<img src="' + q.imgA + '" alt="A画像">';
+
+        document.getElementById("choiceB").innerHTML =
+            '<img src="' + q.imgB + '" alt="B画像">';
+
+    }else{
+
+        document.getElementById("choiceA").innerHTML =
+            '<div class="text">' + q.a + '</div>';
+
+        document.getElementById("choiceB").innerHTML =
+            '<div class="text">' + q.b + '</div>';
+
+    }
+}
+
+function nextQuestion(){
+
+    if(current < questions.length - 1){
+        current++;
+        showQuestion();
+    }
+
+}
+
+function prevQuestion(){
+
+    if(current > 0){
+        current--;
+        showQuestion();
+    }
+
+}
+
+function showList(){
+
+    document.getElementById("questionPage").style.display =
+        "none";
+
+    document.getElementById("listPage").style.display =
+        "block";
+
+}
+
+function backQuestion(){
+
+    document.getElementById("questionPage").style.display =
+        "block";
+
+    document.getElementById("listPage").style.display =
+        "none";
+
+}
+
+function goQuestion(n){
+
+    current = n;
+
+    backQuestion();
+
+    showQuestion();
+
+}
+
+showQuestion();
+
+</script>
+
+</body>
+</html>
